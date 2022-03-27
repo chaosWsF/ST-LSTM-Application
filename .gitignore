@@ -134,4 +134,6 @@ dmypy.json
 *.pdf
 *.xlsx
 *.csv
-LSTM/
+results_*/
+*.pkl
+*.docx
