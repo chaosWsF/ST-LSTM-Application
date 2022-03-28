@@ -11,8 +11,8 @@ y_test = np.load(cache_dir / Path('y_test.npy'))
 scaler = joblib.load(cache_dir / Path('scaler.gz'))
 
 ## TODO: with upstream or only downstream
-working_dir = Path('results_with_up')
-# working_dir = Path('results_only_down')
+# working_dir = Path('results_with_up')
+working_dir = Path('results_only_down')
 
 working_dir.mkdir(exist_ok=True)
 

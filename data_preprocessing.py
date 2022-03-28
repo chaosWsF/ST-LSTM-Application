@@ -74,7 +74,7 @@ df_total = pd.merge(df_up, df_down)
 
 ## change this feature combination list to do different combination of feature testing
 feat_cols = [
-    'Water_Temp_Up', 'Cond_Up', 'DO_Up',    # TODO: Comment this line to use downstream only
+    # 'Water_Temp_Up', 'Cond_Up', 'DO_Up',    # TODO: uncomment this line to add upstream features
     'Water_Temp_Dn', 'Cond_Dn'
 ]
 target_col = 'DO_Dn'
