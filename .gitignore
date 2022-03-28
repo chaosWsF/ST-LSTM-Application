@@ -128,14 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/data/
-/figs/
-/models/
 *.pdf
 *.xlsx
 *.csv
 results_*/
-*.pkl
 *.docx
-*.npy
-*.gz
+/cache/
