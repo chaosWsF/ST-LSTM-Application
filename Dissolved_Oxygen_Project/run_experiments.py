@@ -17,7 +17,7 @@ working_dir = Path('results_with_up')
 working_dir.mkdir(exist_ok=True)
 model_name = 'LSTM'
 
-EPCOHS = 5
+EPCOHS = 2
 # EPOCHS = 30    # TODO
 BATCH_SIZE = 32
 LR = 1E-3

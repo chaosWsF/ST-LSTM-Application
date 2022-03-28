@@ -91,6 +91,7 @@ def run_lstm(model_name, lr, bs, ephs, scaler, x_train, y_train, x_test, y_test,
     plt.ylabel('Loss')
     plt.legend()
     plt.savefig(working_dir / Path(f'simple_{model_name}.png'))
+    plt.close()
 
     simple_lstm.load_weights(filepath_simple)
     preds = simple_lstm.predict(x_test)
@@ -129,6 +130,7 @@ def run_lstm(model_name, lr, bs, ephs, scaler, x_train, y_train, x_test, y_test,
     plt.plot(history.history['val_loss'],'b',label='Validation Loss')
     plt.legend()
     plt.savefig(working_dir / Path(f'attention_{model_name}.png'))
+    plt.close()
 
     atten_lstm.load_weights(filepath_attention)
     preds = atten_lstm.predict(x_test)
