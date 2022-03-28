@@ -137,3 +137,4 @@ dmypy.json
 results_*/
 *.pkl
 *.docx
+*.npy
