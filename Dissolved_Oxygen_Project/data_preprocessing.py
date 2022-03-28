@@ -1,3 +1,4 @@
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
@@ -79,21 +80,18 @@ feat_cols = [
 target_col = 'DO_Dn'
 
 ## Change the lag, duration variable values according to experiment value taken
-## EPOCHS = 5 (taken for demonstration of code working, later we can change it 200 or higher epochs)
 lag = 6
 duration = 6
-EPOCHS = 30
-BATCH_SIZE = 32
-LR = 1E-3
 train_size = 0.8
 
 ## Creating the training and testing data
 x_train,x_test,y_train,y_test,scaler = splitter(df_total[feat_cols + [target_col]], target_col, lag, duration, train_size)
 
-## save preprocessed data
+## save preprocessed data and scaler
 cache_dir = Path('cache')
 cache_dir.mkdir(exist_ok=True)
 np.save(cache_dir / Path('X_train.npy'), x_train)
 np.save(cache_dir / Path('y_train.npy'), y_train)
 np.save(cache_dir / Path('X_test.npy'), x_test)
 np.save(cache_dir / Path('y_test.npy'), y_test)
+joblib.dump(scaler, cache_dir / Path('scaler.gz'))
