@@ -16,18 +16,18 @@ working_dir = Path('results_only_down')
 
 working_dir.mkdir(exist_ok=True)
 
-EPOCHS = 30
-BATCH_SIZE = 32
+EPOCHS = 20
+BATCH_SIZE = 200
 LR = 1E-3
 
 print('=====START=====')
-run_lstm(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
-print('=====LSTM done=====')
-run_cnnlstm(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
-print('=====CNN LSTM done=====')
+# run_lstm(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
+# print('=====LSTM done=====')
+# run_cnnlstm(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
+# print('=====CNN LSTM done=====')
 run_convlstm(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
 print('=====ConvLSTM done=====')
-run_seq2seq(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
-print('=====Seq2Seq done=====')
-run_wavenet(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
-print('=====Wavenet done=====')
+# run_seq2seq(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
+# print('=====Seq2Seq done=====')
+# run_wavenet(LR, BATCH_SIZE, EPOCHS, scaler, x_train, y_train, x_test, y_test, working_dir)
+# print('=====Wavenet done=====')

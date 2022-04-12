@@ -11,6 +11,7 @@ from sklearn.metrics import mean_squared_error
 from tensorflow import keras
 from tensorflow.keras.layers import *
 from xlwt import Workbook
+from data_preprocessing import duration
 
 
 class attention(keras.layers.Layer):
@@ -79,7 +80,7 @@ def run_lstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_dir
     simple_lstm.add(keras.layers.Dense(64, activation='relu'))
     simple_lstm.add(keras.layers.Dropout(0.3))
     simple_lstm.add(keras.layers.Dense(32))
-    simple_lstm.add(keras.layers.Dense(6))
+    simple_lstm.add(keras.layers.Dense(duration))
 
     simple_lstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -123,7 +124,7 @@ def run_lstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_dir
     atten_lstm.add(keras.layers.Dense(64, activation='relu'))
     atten_lstm.add(keras.layers.Dropout(0.3))
     atten_lstm.add(keras.layers.Dense(32))
-    atten_lstm.add(keras.layers.Dense(6))
+    atten_lstm.add(keras.layers.Dense(duration))
 
     atten_lstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -183,7 +184,7 @@ def run_cnnlstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_
     simple_cnnlstm.add(keras.layers.Dense(128, activation='relu'))
     simple_cnnlstm.add(keras.layers.Dense(64, activation='relu'))
     simple_cnnlstm.add(keras.layers.Dense(32))
-    simple_cnnlstm.add(keras.layers.Dense(6))
+    simple_cnnlstm.add(keras.layers.Dense(duration))
 
     simple_cnnlstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -226,7 +227,7 @@ def run_cnnlstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_
     atten_cnnlstm.add(keras.layers.Dense(128, activation='relu'))
     atten_cnnlstm.add(keras.layers.Dense(64, activation='relu'))
     atten_cnnlstm.add(keras.layers.Dense(32))
-    atten_cnnlstm.add(keras.layers.Dense(6))
+    atten_cnnlstm.add(keras.layers.Dense(duration))
 
     atten_cnnlstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -292,7 +293,7 @@ def run_convlstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working
     simple_convlstm.add(keras.layers.Dense(128, activation='relu'))
     simple_convlstm.add(keras.layers.Dense(64, activation='relu'))
     simple_convlstm.add(keras.layers.Dense(32))
-    simple_convlstm.add(keras.layers.Dense(6))
+    simple_convlstm.add(keras.layers.Dense(duration))
 
     simple_convlstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -337,7 +338,7 @@ def run_convlstm(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working
     atten_convlstm.add(keras.layers.Dense(128, activation='relu'))
     atten_convlstm.add(keras.layers.Dense(64, activation='relu'))
     atten_convlstm.add(keras.layers.Dense(32))
-    atten_convlstm.add(keras.layers.Dense(6))
+    atten_convlstm.add(keras.layers.Dense(duration))
 
     atten_convlstm.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr), metrics=['mae'])
 
@@ -554,7 +555,7 @@ def run_wavenet(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_
     out = keras.layers.Conv1D(1, 1, padding='same')(out)
 
     out = keras.layers.Flatten()(out)
-    out = keras.layers.Dense(6)(out)
+    out = keras.layers.Dense(duration)(out)
 
     simple_wavenet = keras.Model(inputs, out)
 
@@ -621,7 +622,7 @@ def run_wavenet(lr, bs, ephs, scaler, x_train, y_train, x_test, y_test, working_
     out = Conv1D(1, 1, padding='same')(out)
     #out = attention(return_sequences=True)(out)
     out = Flatten()(out)
-    out = Dense(6)(out)
+    out = Dense(duration)(out)
 
     atten_wavenet = keras.Model(inputs, out)
 

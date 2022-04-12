@@ -74,14 +74,14 @@ df_total = pd.merge(df_up, df_down)
 
 ## change this feature combination list to do different combination of feature testing
 feat_cols = [
-    # 'Water_Temp_Up', 'Cond_Up', 'DO_Up',    # TODO: uncomment this line to add upstream features
-    'Water_Temp_Dn', 'Cond_Dn'
+    # 'Water_Temp_Up', 'DO_Up',    # TODO: uncomment this line to add upstream features
+    'Water_Temp_Dn'
 ]
 target_col = 'DO_Dn'
 
 ## Change the lag, duration variable values according to experiment value taken
 lag = 6
-duration = 6
+duration = 24
 train_size = 0.8
 
 ## Creating the training and testing data
