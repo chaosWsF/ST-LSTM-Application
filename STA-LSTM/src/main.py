@@ -20,7 +20,7 @@ from modelbase import STA_LSTM as Net
 # from modelbase import SVM as Net
 
 '''****************************initialization*******************************''' 
-IN_DIM =  6       # 因变量 TX144，CH96，HH120
+IN_DIM =  4       # 因变量 TX144，CH96，HH120    # TODO: change it when using different data file
 SEQUENCE_LENGTH = 1   # 时间序列长度，即为回溯期
 
 LSTM_IN_DIM = int(IN_DIM/SEQUENCE_LENGTH)     # LSTM的input大小,等于总的变量长度/时间序列长度
@@ -31,12 +31,12 @@ OUT_DIM = 1            # 输出大小
 LEARNING_RATE = 0.05 # learning rate
 WEIGHT_DECAY = 1e-6    # L2惩罚项
 
-BATCH_SIZE = 50        # batch size
+BATCH_SIZE = 200        # batch size
 
-EPOCHES = 2    # epoch大小
+EPOCHES = 20    # epoch大小
 
 TRAIN_PER = 0.80 # 训练集占比
-VALI_PER = 0.10 # 验证集占比
+VALI_PER = 0.00 # 验证集占比
 
 # 判断是否采用GPU加速
 # USE_GPU = torch.cuda.is_available()    # FIXME: how to use GPU?
@@ -44,7 +44,7 @@ USE_GPU = False
 
 '''****************************data prepration*******************************''' 
 # 准备好训练和测试数据
-dp = data_preprocess(file_path = './data/dataset/sample_up_down.csv', train_per = TRAIN_PER, vali_per = VALI_PER, in_dim = IN_DIM)    # TODO: change file names
+dp = data_preprocess(file_path = './data/dataset/DO_up_down_WT_t+24.csv', train_per = TRAIN_PER, vali_per = VALI_PER, in_dim = IN_DIM)    # TODO: change file names
 
 raw_data = dp.load_data()
 # print('数据导入完成')
@@ -177,7 +177,8 @@ def test():
             predictions.extend(out.data.numpy().tolist())
             test_groundtruths.extend(groundtruths.data.numpy().tolist())
       
-    average_error = np.sqrt(error/len(test_data_trans))
+    # average_error = np.sqrt(error/len(test_data_trans))    # RMSE
+    average_error = error / len(test_data_trans)    # MSE
     
     return np.array(predictions).reshape((len(predictions))),np.array(test_groundtruths).reshape((len(test_groundtruths))),average_error
 
@@ -212,11 +213,10 @@ def main():
     print('test time = {}s'.format(int((time.time() - test_start)+1.0)))
     print('average error = ',  average_error)
 
-    # TODO: format the name of column and output file
-    result = pd.DataFrame(data = {'DO(t+1)':predictions,'DO(t+1)truth':test_groundtruth})
-    result.to_csv('./data/output/out_up_down.csv')
-    
-    torch.save(net,'./models/sta_lstm_up_down.pth')
+    # TODO: format the name of outputs
+    result = pd.DataFrame(data = {'DO(t+24)':predictions,'DO(t+24)truth':test_groundtruth})
+    result.to_csv('./data/output/out_DO_up_down_WT_t+24.csv')
+    torch.save(net,'./models/sta_lstm_DO_up_down_WT_t+24.pth')
 
 if __name__ == '__main__':
     main()
