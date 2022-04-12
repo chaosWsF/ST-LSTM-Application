@@ -134,3 +134,4 @@ dmypy.json
 results_*/
 *.docx
 /cache/
+*.pth

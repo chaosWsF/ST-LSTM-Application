@@ -20,8 +20,8 @@ from modelbase import STA_LSTM as Net
 # from modelbase import SVM as Net
 
 '''****************************initialization*******************************''' 
-IN_DIM =  144       # 因变量 TX144，CH96，HH120
-SEQUENCE_LENGTH = 12   # 时间序列长度，即为回溯期
+IN_DIM =  6       # 因变量 TX144，CH96，HH120
+SEQUENCE_LENGTH = 1   # 时间序列长度，即为回溯期
 
 LSTM_IN_DIM = int(IN_DIM/SEQUENCE_LENGTH)     # LSTM的input大小,等于总的变量长度/时间序列长度
 LSTM_HIDDEN_DIM = 300  # LSTM隐状态的大小
@@ -31,20 +31,20 @@ OUT_DIM = 1            # 输出大小
 LEARNING_RATE = 0.05 # learning rate
 WEIGHT_DECAY = 1e-6    # L2惩罚项
 
-BATCH_SIZE = 200        # batch size
+BATCH_SIZE = 50        # batch size
 
-EPOCHES = 180    # epoch大小
+EPOCHES = 2    # epoch大小
 
 TRAIN_PER = 0.80 # 训练集占比
-VALI_PER = 0.0 # 验证集占比
+VALI_PER = 0.10 # 验证集占比
 
 # 判断是否采用GPU加速
-# USE_GPU = torch.cuda.is_available()
+# USE_GPU = torch.cuda.is_available()    # FIXME: how to use GPU?
 USE_GPU = False
 
 '''****************************data prepration*******************************''' 
 # 准备好训练和测试数据
-dp = data_preprocess(file_path = './data/dataset/sample_t+1.csv', train_per = TRAIN_PER, vali_per = VALI_PER, in_dim = IN_DIM)
+dp = data_preprocess(file_path = './data/dataset/sample_up_down.csv', train_per = TRAIN_PER, vali_per = VALI_PER, in_dim = IN_DIM)    # TODO: change file names
 
 raw_data = dp.load_data()
 # print('数据导入完成')
@@ -115,8 +115,8 @@ def train(verbose = False):
     for i,data in enumerate(train_dataloader):
        
         inputs = data['inputs']
-        groundtruths = data['groundtruths']     
-        
+        groundtruths = data['groundtruths']
+
         if USE_GPU:
             inputs = Variable(inputs).cuda()
             groundtruths = Variable(groundtruths).cuda()
@@ -154,7 +154,7 @@ def test():
     for i,data in enumerate(test_dataloader):
 
         inputs = data['inputs']
-        groundtruths = data['groundtruths']     
+        groundtruths = data['groundtruths']
         
         if USE_GPU:
 
@@ -192,7 +192,7 @@ def main():
     for epoch in range(EPOCHES):
 
         # adjust learning rate
-        adjust_lr.step()
+        adjust_lr.step()    # FIXME: Detected call of `lr_scheduler.step()` before `optimizer.step()`
         
         loss_list = train(verbose= True)
         
@@ -206,16 +206,17 @@ def main():
     test_start = time.time()
     predictions, test_groundtruth, average_error = test()
 
-    print(predictions.shape)
-    print(test_groundtruth.shape)
+    # print(predictions.shape)
+    # print(test_groundtruth.shape)
     
     print('test time = {}s'.format(int((time.time() - test_start)+1.0)))
     print('average error = ',  average_error)
 
-    result = pd.DataFrame(data = {'Q(t+1)':predictions,'Q(t+1)truth':test_groundtruth})
-    result.to_csv('./data/output/out_t+1.csv')
+    # TODO: format the name of column and output file
+    result = pd.DataFrame(data = {'DO(t+1)':predictions,'DO(t+1)truth':test_groundtruth})
+    result.to_csv('./data/output/out_up_down.csv')
     
-    torch.save(net,'./models/sta_lstm_t+1.pth')
+    torch.save(net,'./models/sta_lstm_up_down.pth')
 
 if __name__ == '__main__':
     main()
